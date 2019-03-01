@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Test.Data.DTO.Class1DTO>
+
+<h2>Class1s</h2>
+
+<div style="margin-top: 120px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" id="class1-add" onclick="AddClass1()" class="btn btn-primary">Save</button>
+</div>
+
+@if (Model.Any())
+{
+    <div style="margin-top: 50px">
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Description</td>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+
+@section InlineScripts
+{
+    <script>
+        function AddClass1() {
+            var model = {
+                Name: "name1",
+                Description: "description1"
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/AddClass1",
+                contevtType: "application/json",
+                async: false,
+                data: JSON.stringify({ model: model }),
+                success: function (result) {
+                    if (result.Success) {
+                        location.reload();
+                    } else {
+                        alert(result.Message);
+                    }
+                }
+            });
+        }
+    </script>
+}
